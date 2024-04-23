@@ -40,6 +40,8 @@ const styles = StyleSheet.create({
     marginVertical: 16,
     marginHorizontal: 18,
     borderRadius: 9999,
+    height: 56,
+    width: 56,
   },
   textContainer: {
     flex: 1,
