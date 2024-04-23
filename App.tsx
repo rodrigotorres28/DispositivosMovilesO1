@@ -1,18 +1,9 @@
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
-import AddMultipleButton from './components/AddMultipleButton';
-import ProductCard from './components/ProductCard';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import MainStackNavigation from './components/MainStackNavigator';
 
 export default function App() {
   return (
-	<ProductCard title='Grapefruit' price='45' imagePath={require("./assets/Grapefruit.png")}/>
+      <MainStackNavigation/>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
