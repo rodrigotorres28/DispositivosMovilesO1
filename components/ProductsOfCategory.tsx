@@ -4,8 +4,9 @@ import ProductCard from "./ProductCard";
 import { Divider } from "@rneui/themed";
 
 interface ProductsOfCategoryProps {
+  id: number;
   category: string;
-  products: { name: string; price: number; imagePath: string }[];
+  products: { name: string; price: number; imagePath: string ; id: number}[];
 }
 
 const ProductsOfCategory = ({category, products}: ProductsOfCategoryProps) => {
@@ -18,12 +19,10 @@ const ProductsOfCategory = ({category, products}: ProductsOfCategoryProps) => {
         data={products}
         renderItem={({ item }) => (
           <ProductCard
-            title={item.name}
-            price={item.price.toString()}
-            imagePath={require("../assets/Grapefruit.png")}
+            product={item}
           />
         )}
-        keyExtractor={(item, index) => index.toString()}
+        keyExtractor={(item,) => item.id.toString()}
       />
     </View>
   );

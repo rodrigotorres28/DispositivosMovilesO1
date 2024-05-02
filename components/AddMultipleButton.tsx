@@ -2,34 +2,36 @@ import * as React from "react";
 import { useState } from "react";
 import { Text, View, StyleSheet, TouchableOpacity, Image } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { useDispatch, useSelector } from 'react-redux';
+import { addToCart, removeFromCart } from "../state/cartSlice";
+import { RootState } from "../state/store";
 
-interface AddMultipleButtonProps {}
+interface AddMultipleButtonProps {
+  product: { name: string; price: number; imagePath: string; id: number };
+}
 
-const AddMultipleButton = (props: AddMultipleButtonProps) => {
-  const [addedItems, setaddedItems] = useState(0);
+const AddMultipleButton = ({ product }: AddMultipleButtonProps) => {
+  const dispatch = useDispatch();
+  const cartItem = useSelector((state: RootState)  => state.cart.items.find(item => item.product.id === product.id));
 
-  const handleAddIncrease = () => {
-    setaddedItems(addedItems + 1);
-    console.log(addedItems);
+  const handleAddToCart = () => {
+    dispatch(addToCart(product));
   };
 
-  const handleAddDecrease = () => {
-    setaddedItems(addedItems - 1);
+  const handleRemoveFromCart = () => {
+    dispatch(removeFromCart(product.id));
   };
 
-  if (addedItems <= 0) {
+  if (!cartItem || cartItem.quantity === 0) {
     return (
-      <TouchableOpacity onPress={handleAddIncrease} style={styles.buttonAdd}>
+      <TouchableOpacity onPress={handleAddToCart} style={styles.buttonAdd}>
         <Text style={styles.textAdd}>Add</Text>
       </TouchableOpacity>
     );
   } else {
     return (
       <View style={styles.multipleAddContainer}>
-        <TouchableOpacity
-          onPress={handleAddDecrease}
-          style={styles.buttonsPlusMinus}
-        >
+        <TouchableOpacity onPress={handleRemoveFromCart} style={styles.buttonsPlusMinus}>
           <MaterialCommunityIcons
             style={{ alignSelf: "center" }}
             name="minus"
@@ -37,11 +39,8 @@ const AddMultipleButton = (props: AddMultipleButtonProps) => {
             size={16}
           />
         </TouchableOpacity>
-          <Text style={{minWidth: 20, alignSelf: "center", textAlign: "center"}}>{addedItems}</Text>
-        <TouchableOpacity
-          onPress={handleAddIncrease}
-          style={styles.buttonsPlusMinus}
-        >
+        <Text style={{minWidth: 20, alignSelf: "center", textAlign: "center"}}>{cartItem.quantity}</Text>
+        <TouchableOpacity onPress={handleAddToCart} style={styles.buttonsPlusMinus}>
           <MaterialCommunityIcons
             style={{ alignSelf: "center" }}
             name="plus"
@@ -53,6 +52,7 @@ const AddMultipleButton = (props: AddMultipleButtonProps) => {
     );
   }
 };
+
 
 export default AddMultipleButton;
 

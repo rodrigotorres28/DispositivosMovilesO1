@@ -31,6 +31,7 @@ const PageProductSearch = () => {
 
         if (tempItemList.length > 0) {
           filtered.push({
+            id: categoryElement.id,
             category: categoryElement.category,
             items: tempItemList,
           });
@@ -47,7 +48,7 @@ const PageProductSearch = () => {
   }, [inputText]);
 
   return (
-    <>
+    <View style={{flex:1}}>
       <View style={styles.inputContainer}>
         <MaterialCommunityIcons
           name="magnify"
@@ -65,7 +66,7 @@ const PageProductSearch = () => {
         />
       </View>
       <AllProductsWithCategories allProducts={filteredProducts} />
-    </>
+    </View>
   );
 };
 
