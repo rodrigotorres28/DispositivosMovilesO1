@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, TextInput } from "react-native";
+import { View, StyleSheet, TextInput} from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import AllProductsWithCategories from "./AllProductsWithCategories";
 import { products } from "../assets/products";
@@ -48,7 +48,7 @@ const PageProductSearch = () => {
   }, [inputText]);
 
   return (
-    <View style={{flex:1}}>
+    <View style={{ flex: 1 }}>
       <View style={styles.inputContainer}>
         <MaterialCommunityIcons
           name="magnify"
