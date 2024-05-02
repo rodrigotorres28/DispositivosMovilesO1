@@ -7,11 +7,17 @@ export interface Product {
   id: number;
 }
 
+export interface ProductsCategory {
+  id : number
+  categoryName : string
+  data : Product[]
+}
+
 export const products = [
     {
       "id": 0,
-      "category": "Fruits",
-      "items": [
+      "categoryName": "Fruits",
+      "data": [
         {"name": "GrapeFruit", "price": 45, "imagePath": require("../assets/Grapefruit.png"), "id": 0},
         {"name": "Banana", "price": 12, "imagePath": require("../assets/Grapefruit.png"), "id": 1},
         {"name": "Orange", "price": 20, "imagePath": require("../assets/Grapefruit.png"), "id": 2},
@@ -21,8 +27,8 @@ export const products = [
     },
     {
       "id": 1,
-      "category": "Vegetables",
-      "items": [
+      "categoryName": "Vegetables",
+      "data": [
         {"name": "Carrot", "price": 10, "imagePath": require("../assets/Grapefruit.png"), "id": 5},
         {"name": "Broccoli", "price": 15, "imagePath": require("../assets/Grapefruit.png"), "id": 6},
         {"name": "Tomato", "price": 18, "imagePath": require("../assets/Grapefruit.png"), "id": 7},
@@ -32,8 +38,8 @@ export const products = [
     },
     {
       "id": 2,
-      "category": "Dairy",
-      "items": [
+      "categoryName": "Dairy",
+      "data": [
         {"name": "Milk", "price": 8, "imagePath": require("../assets/Grapefruit.png"), "id": 10},
         {"name": "Cheese", "price": 20, "imagePath": require("../assets/Grapefruit.png"), "id": 11},
         {"name": "Yogurt", "price": 15, "imagePath": require("../assets/Grapefruit.png"), "id": 12},
@@ -42,8 +48,8 @@ export const products = [
     },
     {
       "id": 3,
-      "category": "Grains",
-      "items": [
+      "categoryName": "Grains",
+      "data": [
         {"name": "Bread", "price": 12, "imagePath": require("../assets/Grapefruit.png"), "id": 14},
         {"name": "Rice", "price": 25, "imagePath": require("../assets/Grapefruit.png"), "id": 15},
         {"name": "Pasta", "price": 18, "imagePath": require("../assets/Grapefruit.png"), "id": 16}
@@ -51,8 +57,8 @@ export const products = [
     },
     {
       "id": 4,
-      "category": "Meat",
-      "items": [
+      "categoryName": "Meat",
+      "data": [
         {"name": "Chicken Breast", "price": 25, "imagePath": require("../assets/Grapefruit.png"), "id": 17},
         {"name": "Beef Steak", "price": 35, "imagePath": require("../assets/Grapefruit.png"), "id": 18},
         {"name": "Pork Chop", "price": 30, "imagePath": require("../assets/Grapefruit.png"), "id": 19},

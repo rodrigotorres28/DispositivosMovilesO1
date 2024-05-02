@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
   image: {
     marginVertical: 16,
     marginHorizontal: 18,
-    borderRadius: 9999,
+    borderRadius: 28,
     height: 56,
     width: 56,
   },

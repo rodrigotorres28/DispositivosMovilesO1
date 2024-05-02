@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
   buttonAdd: {
     borderWidth: 2,
     borderColor: "#5C3EDB",
-    borderRadius: 50,
+    borderRadius: 33/2,
     width: 97,
     height: 33,
     justifyContent: "center",
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
   multipleAddContainer: {
     borderWidth: 2,
     borderColor: "#F3F3F3",
-    borderRadius: 50,
+    borderRadius: 33/2,
     width: 97,
     height: 33,
     justifyContent: "space-evenly",
