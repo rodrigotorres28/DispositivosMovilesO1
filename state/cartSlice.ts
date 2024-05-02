@@ -1,8 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { ImageSourcePropType } from 'react-native';
 
 
 interface CartItem {
-  product: { name: string; price: number; imagePath: string; id: number };
+  product: { name: string; price: number; imagePath: ImageSourcePropType; id: number };
   quantity: number;
 }
 
@@ -18,7 +19,7 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    addToCart: (state, action: PayloadAction<{ name: string; price: number; imagePath: string; id: number }>) => {
+    addToCart: (state, action: PayloadAction<{ name: string; price: number; imagePath: ImageSourcePropType; id: number }>) => {
       const productToAdd = action.payload;
       const existingItem = state.items.find(item => item.product.id === productToAdd.id); //devuelve el item o undefined
       if (existingItem != undefined) { // si el item existe aumenta la cantidad sino lo agrega a la lista

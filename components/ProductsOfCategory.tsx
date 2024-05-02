@@ -1,12 +1,12 @@
 import * as React from "react";
-import { Text, View, StyleSheet, FlatList } from "react-native";
+import { Text, View, StyleSheet, FlatList, ImageSourcePropType } from "react-native";
 import ProductCard from "./ProductCard";
 import { Divider } from "@rneui/themed";
 
 interface ProductsOfCategoryProps {
   id: number;
   category: string;
-  products: { name: string; price: number; imagePath: string ; id: number}[];
+  products: { name: string; price: number; imagePath: ImageSourcePropType ; id: number}[];
 }
 
 const ProductsOfCategory = ({category, products}: ProductsOfCategoryProps) => {

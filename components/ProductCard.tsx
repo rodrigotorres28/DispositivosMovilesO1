@@ -2,9 +2,10 @@ import * as React from "react";
 import { Text, View, StyleSheet, Image, ImageSourcePropType } from "react-native";
 import { Divider } from "@rneui/themed";
 import AddMultipleButton from "./AddMultipleButton";
+import { Product } from "../assets/products";
 
 interface ProductCardProps {
-    product: { name: string; price: number; imagePath: string; id: number }
+    product: Product
 }
 
 const ProductCard = ({product}: ProductCardProps) => {
@@ -13,7 +14,7 @@ const ProductCard = ({product}: ProductCardProps) => {
       <View style={styles.container}>
         <Image
           style={styles.image}
-          source={require("../assets/Grapefruit.png")}
+          source={product.imagePath}
         ></Image>
         <View style={styles.textContainer}>
           <Text style={styles.title}>{product.name}</Text>

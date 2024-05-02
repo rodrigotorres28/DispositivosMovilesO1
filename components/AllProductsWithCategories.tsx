@@ -1,9 +1,9 @@
 import * as React from "react";
-import { FlatList, ScrollView, StyleSheet } from "react-native";
+import { FlatList, ImageSourcePropType, ScrollView, StyleSheet } from "react-native";
 import ProductsOfCategory from "./ProductsOfCategory";
 
 interface AllProductsWithCategoriesProps {
-  allProducts: {id: number; category: string; items: { name: string; price: number; imagePath: string; id: number }[];
+  allProducts: {id: number; category: string; items: { name: string; price: number; imagePath: ImageSourcePropType; id: number }[];
   }[];
 }
 

@@ -1,13 +1,13 @@
 import * as React from "react";
 import { useState } from "react";
-import { Text, View, StyleSheet, TouchableOpacity, Image } from "react-native";
+import { Text, View, StyleSheet, TouchableOpacity, Image, ImageSourcePropType } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart, removeFromCart } from "../state/cartSlice";
 import { RootState } from "../state/store";
 
 interface AddMultipleButtonProps {
-  product: { name: string; price: number; imagePath: string; id: number };
+  product: { name: string; price: number; imagePath: ImageSourcePropType; id: number };
 }
 
 const AddMultipleButton = ({ product }: AddMultipleButtonProps) => {
