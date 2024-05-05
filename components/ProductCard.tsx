@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Text, View, StyleSheet, Image, ImageSourcePropType } from "react-native";
+import { Text, View, StyleSheet, Image } from "react-native";
 import AddMultipleButton from "./AddMultipleButton";
 import { Product } from "./ProductsSectionList";
 

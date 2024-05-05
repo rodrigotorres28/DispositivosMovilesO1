@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ImageSourcePropType } from 'react-native';
-import { Product } from '../assets/products';
+import { Product } from '../components/ProductsSectionList';
+
 
 
 interface CartItem {
