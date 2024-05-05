@@ -20,6 +20,8 @@ const MainStackNavigation = (props: MainStackNavigationProps) => {
               <CartIconButton/>
             ),
             headerTitle:"",
+            headerTintColor: "transparent",
+            headerTransparent: true,
             contentStyle: {backgroundColor: "white"}}}/>
       </MainStack.Navigator>
     </NavigationContainer>

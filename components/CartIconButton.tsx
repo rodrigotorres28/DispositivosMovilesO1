@@ -21,8 +21,8 @@ const CartIconButton = (props: CartIconProps) => {
   return (
     <TouchableOpacity
       onPress={emptyCartAlert}
-      style={ styles.cartIcon}>
-      <Image source={cartItems.length > 0 ? require("../assets/CartWithItems.png") : require("../assets/CartEmpty.png")}/>
+      style={ styles.cartButton}>
+      <Image style={styles.cartImage} source={cartItems.length > 0 ? require("../assets/CartWithItems.png") : require("../assets/CartEmpty.png")}/>
     </TouchableOpacity>
   );
 };
@@ -30,9 +30,18 @@ const CartIconButton = (props: CartIconProps) => {
 export default CartIconButton;
 
 const styles = StyleSheet.create({
-  cartIcon: {
-    width: 20,
-    height: 20, 
-    marginRight: 10,
+  cartButton: {
+    width: 30,
+    height: 30, 
+    marginRight: 14,
+    marginTop: 3,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  cartImage: {
+    height:25,
+    width:25,
+    resizeMode: "center"
   }
+
 });

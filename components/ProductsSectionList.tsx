@@ -108,6 +108,7 @@ const styles = StyleSheet.create({
     borderRadius: inputContainerHeight / 2,
     paddingHorizontal: 10,
     marginHorizontal: 18,
+    marginTop: 12,
   },
   inputText: {
     flex: 1,
