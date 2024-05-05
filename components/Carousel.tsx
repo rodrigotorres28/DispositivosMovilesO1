@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { Text, View, StyleSheet, Image, FlatList, ImageSourcePropType, useWindowDimensions, ViewToken} from 'react-native';
+import { Text, View, StyleSheet, Image, FlatList, ImageSourcePropType, useWindowDimensions, ViewToken, ColorValue} from 'react-native';
 
 export interface CarouselSlide {
     image : ImageSourcePropType
     title : String
     overTitle : String
+    textColor : ColorValue
 }
 
 interface CarouselProps {
@@ -30,10 +31,10 @@ const Carousel = ({slides}: CarouselProps) => {
                 data={slides}
                 renderItem={({ item }) => (
                     <View style={[styles.slideContainer, { marginHorizontal: (screenWidth - imageWidth) / 2 }]}>
-                        <Image style={{width: imageWidth, height: imageHeight}} source={item.image} />
+                        <Image style={{width: imageWidth, height: imageHeight, borderRadius: 4,}} source={item.image} />
                         <View style= {styles.textContainer}>
-                            <Text style={styles.overTitle}>{item.overTitle}</Text>
-                            <Text style={styles.title}>{item.title}</Text>
+                            <Text style={[styles.overTitle, {color : item.textColor}]}>{item.overTitle}</Text>
+                            <Text style={[styles.title, {color : item.textColor}]}>{item.title}</Text>
                         </View>
                     </View>
                 )}
@@ -68,7 +69,6 @@ const styles = StyleSheet.create({
   slideContainer: {
     width: 339,
     alignItems: "center",
-    borderRadius: 4,
   },
   textContainer: {
     position: "absolute",

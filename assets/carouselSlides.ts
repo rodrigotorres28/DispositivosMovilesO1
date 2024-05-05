@@ -2,21 +2,25 @@ export const carouselSlides = [
     {
         "image" : require("../assets/BananaCarousel.png"),
         "title" : "Brazilian Bananas",
-        "overTitle" : "Product of the month"
+        "overTitle" : "Product of the month",
+        "textColor" : "white"
     },
     {
         "image" : require("../assets/sushiCarousel.webp"),
         "title" : "AAAAAAAAAAAA",
-        "overTitle" : "BBBBBBBBBB"
+        "overTitle" : "BBBBBBBBBB",
+        "textColor" : "white"
     },
     {
-        "image" : require("../assets/BananaCarousel.png"),
-        "title" : "Brazilian Bananas",
-        "overTitle" : "Product of the month"
+        "image" : require("../assets/aestheticFood.webp"),
+        "title" : "Aesthetic Food",
+        "overTitle" : "This text is black :)",
+        "textColor" : "black"
     },
     {
         "image" : require("../assets/desertsCarousel.jpg"),
         "title" : "Acido desoxiribonucleico",
-        "overTitle" : "Califragilisticoespialidoso"
+        "overTitle" : "Califragilisticoespialidoso",
+        "textColor" : "white"
     }
 ]
