@@ -1,6 +1,5 @@
 import * as React from "react";
 import { Text, View, StyleSheet, Image, ImageSourcePropType } from "react-native";
-import { Divider } from "@rneui/themed";
 import AddMultipleButton from "./AddMultipleButton";
 import { Product } from "../assets/products";
 
@@ -24,7 +23,7 @@ const ProductCard = ({product}: ProductCardProps) => {
           <AddMultipleButton product={product} />
         </View>
       </View>
-      <Divider style={{marginHorizontal: 18}}/>
+      <View style = {styles.dividerView}></View>
     </>
   );
 };
@@ -64,4 +63,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#9FA1B5",
   },
+  dividerView: {
+    borderWidth : 1,
+    borderColor : "#F6F5F5",
+    marginHorizontal: 18
+  }
 });
