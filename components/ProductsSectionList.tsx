@@ -1,11 +1,24 @@
 import * as React from "react";
-import { StyleSheet, Text, View, SectionList, TextInput } from "react-native";
-import { ProductsCategory, products } from "../assets/products";
+import { StyleSheet, Text, View, SectionList, TextInput, ImageSourcePropType } from "react-native";
+import { products } from "../assets/products";
 import ProductCard from "./ProductCard";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { useCallback, useMemo, useState } from "react";
 
 const inputContainerHeight = 32;
+
+export interface Product {
+  name: string;
+  price: number;
+  imagePath: ImageSourcePropType;
+  id: number;
+}
+
+export interface ProductsCategory {
+  id : number
+  categoryName : string
+  data : Product[]
+}
 
 const ProductsSectionList = () => {
   const [inputText, setInputText] = useState("");

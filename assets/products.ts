@@ -1,18 +1,5 @@
 import { ImageSourcePropType } from "react-native";
 
-export interface Product {
-  name: string;
-  price: number;
-  imagePath: ImageSourcePropType;
-  id: number;
-}
-
-export interface ProductsCategory {
-  id : number
-  categoryName : string
-  data : Product[]
-}
-
 export const products = [
     {
       "id": 0,

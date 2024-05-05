@@ -5,7 +5,7 @@ export const carouselSlides = [
         "overTitle" : "Product of the month"
     },
     {
-        "image" : require("../assets/BananaCarousel.png"),
+        "image" : require("../assets/sushiCarousel.webp"),
         "title" : "AAAAAAAAAAAA",
         "overTitle" : "BBBBBBBBBB"
     },
@@ -15,7 +15,7 @@ export const carouselSlides = [
         "overTitle" : "Product of the month"
     },
     {
-        "image" : require("../assets/BananaCarousel.png"),
+        "image" : require("../assets/desertsCarousel.jpg"),
         "title" : "Acido desoxiribonucleico",
         "overTitle" : "Califragilisticoespialidoso"
     }

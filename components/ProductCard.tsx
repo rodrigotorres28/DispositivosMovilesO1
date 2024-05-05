@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Text, View, StyleSheet, Image, ImageSourcePropType } from "react-native";
 import AddMultipleButton from "./AddMultipleButton";
-import { Product } from "../assets/products";
+import { Product } from "./ProductsSectionList";
 
 interface ProductCardProps {
     product: Product
