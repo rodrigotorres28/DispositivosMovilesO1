@@ -41,6 +41,7 @@ const Carousel = ({slides}: CarouselProps) => {
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}
                 snapToInterval={screenWidth}
+                decelerationRate="fast"
                 onViewableItemsChanged={handleViewableItemsChanged}
                 viewabilityConfig={{itemVisiblePercentThreshold: 50}}
                 scrollEventThrottle={16}
