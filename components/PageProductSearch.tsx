@@ -9,9 +9,8 @@ const PageProductSearch = () => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <View style={styles.carouselContainer}>
-        <Carousel slides={carouselSlides}/>
-      </View>
+      {/* espacio para el header manual ya que es transparente para que sea igual al figma*/}
+      <View style={styles.headerSpace}></View>
       <ProductsSectionList />
     </SafeAreaView>
   );
@@ -20,8 +19,8 @@ const PageProductSearch = () => {
 export default PageProductSearch;
 
 const styles = StyleSheet.create({
-  carouselContainer: {
-    marginBottom: 12,
-    marginTop: 52,
+  headerSpace: {
+    height: 50,
+    backgroundColor: "white",
   }
 });

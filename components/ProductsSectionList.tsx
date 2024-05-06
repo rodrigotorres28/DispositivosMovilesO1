@@ -4,6 +4,8 @@ import { products } from "../assets/products";
 import ProductCard from "./ProductCard";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { useCallback, useMemo, useState } from "react";
+import Carousel from "./Carousel";
+import { carouselSlides } from "../assets/carouselSlides";
 
 const inputContainerHeight = 32;
 
@@ -71,22 +73,27 @@ const ProductsSectionList = () => {
     <View style={styles.container}>
       <SectionList
         ListHeaderComponent={
-          <View style={styles.inputContainer}>
-            <MaterialCommunityIcons
-              name="magnify"
-              size={24}
-              color="#9FA1B5"
-              style={styles.icon}
-            />
-            <TextInput
-              style={styles.inputText}
-              value={inputText}
-              onChangeText={setInputText}
-              onSubmitEditing={handleSubmit}
-              placeholder="Search"
-              placeholderTextColor="#9FA1B5"
-            />
-          </View>
+          <>
+            <View style={styles.carouselContainer}>
+              <Carousel slides={carouselSlides}/>
+            </View>
+            <View style={styles.inputContainer}>
+              <MaterialCommunityIcons
+                name="magnify"
+                size={24}
+                color="#9FA1B5"
+                style={styles.icon}
+                />
+              <TextInput
+                style={styles.inputText}
+                value={inputText}
+                onChangeText={setInputText}
+                onSubmitEditing={handleSubmit}
+                placeholder="Search"
+                placeholderTextColor="#9FA1B5"
+                />
+            </View>
+          </>
         }
         sections={filteredProducts}
         keyExtractor={(item, index) => item.id.toString() + index}
@@ -106,6 +113,10 @@ export default ProductsSectionList;
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
+  carouselContainer: {
+    marginBottom: 12,
+    marginTop: 2,
+  },
   categoryTitle: {
     paddingVertical: 24,
     paddingHorizontal: 18,
