@@ -48,26 +48,14 @@ const AddMultipleButton = ({ product }: AddMultipleButtonProps) => {
         onPress={handleRemoveFromCart}
         style={styles.buttonsPlusMinus}
       >
-        <MaterialCommunityIcons
-          style={{ alignSelf: "center" }}
-          name="minus"
-          color="black"
-          size={16}
-        />
+        <MaterialCommunityIcons name="minus" color="black" size={16} />
       </TouchableOpacity>
-      <Text style={{ minWidth: 20, alignSelf: "center", textAlign: "center" }}>
-        {cartItem.quantity}
-      </Text>
+      <Text style={styles.quantity}>{cartItem.quantity}</Text>
       <TouchableOpacity
         onPress={handleAddToCart}
         style={styles.buttonsPlusMinus}
       >
-        <MaterialCommunityIcons
-          style={{ alignSelf: "center" }}
-          name="plus"
-          color="black"
-          size={16}
-        />
+        <MaterialCommunityIcons name="plus" color="black" size={16} />
       </TouchableOpacity>
     </View>
   );
@@ -92,6 +80,7 @@ const styles = StyleSheet.create({
     height: 33,
     justifyContent: "space-evenly",
     flexDirection: "row",
+    alignItems: "center",
   },
   buttonsPlusMinus: {
     justifyContent: "center",
@@ -103,5 +92,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#5C3EDB",
     alignSelf: "center",
+  },
+  quantity: {
+    minWidth: 20,
+    textAlign: "center",
   },
 });
