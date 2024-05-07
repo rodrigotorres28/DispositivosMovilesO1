@@ -11,17 +11,20 @@ const CartIconButton = (props: CartIconProps) => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state: RootState) => state.cart.items);
 
-  const emptyCartAlert = () =>
-    Alert.alert(
-      "Emptying Cart",
-      "Are you sure you want to remove all items from the cart?",
-      [
-        {
-          text: "Cancel",
-        },
-        { text: "OK", onPress: () => dispatch(emptyCart()) },
-      ],
-    );
+  const emptyCartAlert = () => {
+    if (cartItems.length > 0) {
+      Alert.alert(
+        "Emptying Cart",
+        "Are you sure you want to remove all items from the cart?",
+        [
+          {
+            text: "Cancel",
+          },
+          { text: "OK", onPress: () => dispatch(emptyCart()) },
+        ],
+      );
+    }
+  };
 
   return (
     <TouchableOpacity onPress={emptyCartAlert} style={styles.cartButton}>
