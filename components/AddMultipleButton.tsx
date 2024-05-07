@@ -24,11 +24,11 @@ interface AddMultipleButtonProps {
 const AddMultipleButton = ({ product }: AddMultipleButtonProps) => {
   const dispatch = useDispatch();
   const cartItem = useSelector((state: RootState) =>
-    state.cart.items.find((item) => item.product.id === product.id),
+    state.cart.items.find((item) => item.productId === product.id),
   );
 
   const handleAddToCart = () => {
-    dispatch(addToCart(product));
+    dispatch(addToCart(product.id));
   };
 
   const handleRemoveFromCart = () => {
