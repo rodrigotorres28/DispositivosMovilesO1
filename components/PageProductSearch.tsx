@@ -7,7 +7,7 @@ import ProductsSectionList from "./ProductsSectionList";
 const PageProductSearch = () => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      {/* espacio para el header manual ya que es transparente para que sea igual al figma*/}
+      {/* manually reserving space for the header because of the transparent setting needed to remove the separation line under it*/}
       <View style={styles.headerSpace} />
       <ProductsSectionList />
     </SafeAreaView>
