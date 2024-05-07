@@ -1,11 +1,19 @@
 import * as React from "react";
-import { StyleSheet, Text, View, SectionList, TextInput, ImageSourcePropType } from "react-native";
-import { products } from "../assets/products";
-import ProductCard from "./ProductCard";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { useCallback, useMemo, useState } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  SectionList,
+  TextInput,
+  ImageSourcePropType,
+} from "react-native";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+
 import Carousel from "./Carousel";
+import ProductCard from "./ProductCard";
 import { carouselSlides } from "../assets/carouselSlides";
+import { products } from "../assets/products";
 
 const inputContainerHeight = 32;
 
@@ -17,17 +25,13 @@ export interface Product {
 }
 
 export interface ProductsCategory {
-  id : number
-  categoryName : string
-  data : Product[]
+  id: number;
+  categoryName: string;
+  data: Product[];
 }
 
 const ProductsSectionList = () => {
   const [inputText, setInputText] = useState("");
-
-  const handleSubmit = () => {
-    setInputText("");
-  };
 
   const filterByNameAndCategory = useCallback(
     (inputText: string, products: ProductsCategory[]) => {
@@ -46,7 +50,7 @@ const ProductsSectionList = () => {
           filtered.push(categoryElement);
         } else {
           const tempItemList = categoryElement.data.filter((item) =>
-            item.name.toLowerCase().includes(inputText.toLowerCase())
+            item.name.toLowerCase().includes(inputText.toLowerCase()),
           );
 
           if (tempItemList.length > 0) {
@@ -61,12 +65,12 @@ const ProductsSectionList = () => {
 
       return filtered;
     },
-    []
+    [],
   );
 
   const filteredProducts = useMemo(
     () => filterByNameAndCategory(inputText, products),
-    [inputText, products, filterByNameAndCategory]
+    [inputText, filterByNameAndCategory],
   );
 
   return (
@@ -75,7 +79,7 @@ const ProductsSectionList = () => {
         ListHeaderComponent={
           <>
             <View style={styles.carouselContainer}>
-              <Carousel slides={carouselSlides}/>
+              <Carousel slides={carouselSlides} />
             </View>
             <View style={styles.inputContainer}>
               <MaterialCommunityIcons
@@ -83,15 +87,14 @@ const ProductsSectionList = () => {
                 size={24}
                 color="#9FA1B5"
                 style={styles.icon}
-                />
+              />
               <TextInput
                 style={styles.inputText}
                 value={inputText}
                 onChangeText={setInputText}
-                onSubmitEditing={handleSubmit}
                 placeholder="Search"
                 placeholderTextColor="#9FA1B5"
-                />
+              />
             </View>
           </>
         }
@@ -101,7 +104,7 @@ const ProductsSectionList = () => {
         renderSectionHeader={({ section: { categoryName } }) => (
           <>
             <Text style={styles.categoryTitle}>{categoryName}</Text>
-            <View style = {styles.dividerView}></View>
+            <View style={styles.dividerView} />
           </>
         )}
       />
@@ -141,8 +144,8 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   dividerView: {
-    borderWidth : 1,
-    borderColor : "#F6F5F5",
-    marginHorizontal: 18
-  }
+    borderWidth: 1,
+    borderColor: "#F6F5F5",
+    marginHorizontal: 18,
+  },
 });

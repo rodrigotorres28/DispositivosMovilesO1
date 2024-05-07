@@ -1,28 +1,27 @@
-import { NavigationContainer } from '@react-navigation/native';
-import * as React from 'react';
-import { MainStack } from '../types/MainStackTypes';
-import PageProductSearch from './PageProductSearch';
-import CartIconButton from './CartIconButton';
+import { NavigationContainer } from "@react-navigation/native";
+import * as React from "react";
 
+import CartIconButton from "./CartIconButton";
+import PageProductSearch from "./PageProductSearch";
+import { MainStack } from "../types/MainStackTypes";
 
 interface MainStackNavigationProps {}
 
 const MainStackNavigation = (props: MainStackNavigationProps) => {
-
   return (
-    <NavigationContainer>  
+    <NavigationContainer>
       <MainStack.Navigator initialRouteName="ProductSearch">
         <MainStack.Screen
-          name= "ProductSearch"
+          name="ProductSearch"
           component={PageProductSearch}
           options={{
-            headerRight: () => (
-              <CartIconButton/>
-            ),
-            headerTitle:"",
+            headerRight: () => <CartIconButton />,
+            headerTitle: "",
             headerTintColor: "transparent",
             headerTransparent: true,
-            contentStyle: {backgroundColor: "white"}}}/>
+            contentStyle: { backgroundColor: "white" },
+          }}
+        />
       </MainStack.Navigator>
     </NavigationContainer>
   );

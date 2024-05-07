@@ -1,12 +1,12 @@
-import MainStackNavigation from './components/MainStackNavigator';
-import { Provider } from 'react-redux';
-import { store } from './state/store';
+import { Provider } from "react-redux";
+
+import MainStackNavigation from "./components/MainStackNavigator";
+import { store } from "./state/store";
 
 export default function App() {
   return (
-      <Provider store={store}>
-        <MainStackNavigation/>
-      </Provider>
+    <Provider store={store}>
+      <MainStackNavigation />
+    </Provider>
   );
 }
-

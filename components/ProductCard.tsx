@@ -1,20 +1,18 @@
 import * as React from "react";
 import { Text, View, StyleSheet, Image } from "react-native";
+
 import AddMultipleButton from "./AddMultipleButton";
 import { Product } from "./ProductsSectionList";
 
 interface ProductCardProps {
-    product: Product
+  product: Product;
 }
 
-const ProductCard = ({product}: ProductCardProps) => {
+const ProductCard = ({ product }: ProductCardProps) => {
   return (
     <>
       <View style={styles.container}>
-        <Image
-          style={styles.image}
-          source={product.imagePath}
-        ></Image>
+        <Image style={styles.image} source={product.imagePath} />
         <View style={styles.textContainer}>
           <Text style={styles.title}>{product.name}</Text>
           <Text style={styles.price}>${product.price}</Text>
@@ -23,7 +21,7 @@ const ProductCard = ({product}: ProductCardProps) => {
           <AddMultipleButton product={product} />
         </View>
       </View>
-      <View style = {styles.dividerView}></View>
+      <View style={styles.dividerView} />
     </>
   );
 };
@@ -64,8 +62,8 @@ const styles = StyleSheet.create({
     color: "#9FA1B5",
   },
   dividerView: {
-    borderWidth : 1,
-    borderColor : "#F6F5F5",
-    marginHorizontal: 18
-  }
+    borderWidth: 1,
+    borderColor: "#F6F5F5",
+    marginHorizontal: 18,
+  },
 });
