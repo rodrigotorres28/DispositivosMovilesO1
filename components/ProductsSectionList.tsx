@@ -101,6 +101,7 @@ const ProductsSectionList = () => {
         sections={filteredProducts}
         keyExtractor={(item, index) => item.id.toString() + index}
         renderItem={({ item }) => <ProductCard product={item} />}
+        stickySectionHeadersEnabled={false}
         renderSectionHeader={({ section: { categoryName } }) => (
           <>
             <Text style={styles.categoryTitle}>{categoryName}</Text>

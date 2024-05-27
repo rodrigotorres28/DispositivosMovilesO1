@@ -1,33 +1,23 @@
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import * as React from "react";
-import { StyleSheet, Image, TouchableOpacity, Alert } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
+import { StyleSheet, Image, TouchableOpacity } from "react-native";
+import { useSelector } from "react-redux";
 
-import { emptyCart } from "../state/cartSlice";
 import { RootState } from "../state/store";
+import { StackParamList } from "../types/MainStackTypes";
 
-interface CartIconProps {}
+type CartIconProps = NativeStackScreenProps<StackParamList>;
 
-const CartIconButton = (props: CartIconProps) => {
-  const dispatch = useDispatch();
+const CartIconButton = ({ navigation }: CartIconProps) => {
   const cartItems = useSelector((state: RootState) => state.cart.items);
 
-  const emptyCartAlert = () => {
-    if (cartItems.length > 0) {
-      Alert.alert(
-        "Emptying Cart",
-        "Are you sure you want to remove all items from the cart?",
-        [
-          {
-            text: "Cancel",
-          },
-          { text: "OK", onPress: () => dispatch(emptyCart()) },
-        ],
-      );
-    }
-  };
-
   return (
-    <TouchableOpacity onPress={emptyCartAlert} style={styles.cartButton}>
+    <TouchableOpacity
+      onPress={() => {
+        navigation.navigate("ShoppingCart");
+      }}
+      style={styles.cartButton}
+    >
       <Image
         style={styles.cartImage}
         source={
