@@ -12,8 +12,8 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 
 import Carousel from "./Carousel";
 import ProductCard from "./ProductCard";
-import { carouselSlides } from "../assets/carouselSlides";
 import useFetchProducts from "../customHooks/useFetchProducts";
+import useFetchPromoted from "../customHooks/useFetchPromoted";
 import { ProductsCategory } from "../types/ProductsCategory";
 
 const inputContainerHeight = 32;
@@ -22,9 +22,11 @@ const ProductsSectionList = () => {
   const [inputText, setInputText] = useState("");
 
   const { data: products, error, isLoading } = useFetchProducts();
-  console.log(products);
-  console.log(error);
-  console.log(isLoading);
+  const {
+    data: promotedSlides,
+    error: promotedError,
+    isLoading: promotedLoading,
+  } = useFetchPromoted();
 
   const filterByNameAndCategory = useCallback(
     (inputText: string, products: ProductsCategory[]) => {
@@ -66,7 +68,7 @@ const ProductsSectionList = () => {
     [inputText, filterByNameAndCategory, products],
   );
 
-  if (isLoading) {
+  if (isLoading || promotedLoading) {
     return (
       <View style={styles.loadingContainer}>
         <ActivityIndicator size="large" color="#0000ff" />
@@ -84,13 +86,23 @@ const ProductsSectionList = () => {
     );
   }
 
+  if (promotedError) {
+    return (
+      <View style={styles.errorContainer}>
+        <Text style={styles.errorText}>
+          Error fetching slides: {promotedError.message}
+        </Text>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
       <SectionList
         ListHeaderComponent={
           <>
             <View style={styles.carouselContainer}>
-              <Carousel slides={carouselSlides} />
+              <Carousel slides={promotedSlides || []} />
             </View>
             <View style={styles.inputContainer}>
               <MaterialCommunityIcons

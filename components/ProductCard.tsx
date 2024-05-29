@@ -23,7 +23,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
           style={styles.image}
           source={
             imageError
-              ? require("../assets/productImages/RandomFood.png")
+              ? require("../assets/RandomFood.png")
               : { uri: product.listImageUrl }
           }
           onError={handleImageError}
