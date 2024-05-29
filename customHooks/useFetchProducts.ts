@@ -1,18 +1,12 @@
 // customHooks/useFetchProducts.ts
 
-import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 import productEndpoints from "../axios/endpoints";
 import { Product } from "../types/Product";
+import { ProductsCategory } from "../types/ProductsCategory";
 
-//ProductsCAtegory is compatible with the SectionList in ProductSectionList
-interface ProductsCategory {
-  id: number;
-  categoryName: string;
-  data: Product[];
-}
-
-//Format the api response into ProductsCategory
+//Format the api response into ProductsCategory (compatible with the SectionList in ProductSectionList)
 const formatProducts = (products: Product[]): ProductsCategory[] => {
   const categoriesMap: { [key: string]: Product[] } = {};
 
@@ -40,30 +34,11 @@ const formatProducts = (products: Product[]): ProductsCategory[] => {
 };
 
 const useFetchProducts = () => {
-  const [data, setData] = useState<ProductsCategory[] | null>(null);
-  const [error, setError] = useState<Error | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      setLoading(true);
-      try {
-        const products = await productEndpoints.fetchProducts();
-        const formattedData = formatProducts(products);
-        setData(formattedData);
-        setError(null);
-      } catch (error) {
-        setError(error as Error);
-        setData(null);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProducts();
-  }, []);
-
-  return { data, error, loading };
+  return useQuery({
+    queryKey: ["products"],
+    queryFn: productEndpoints.fetchProducts,
+    select: formatProducts,
+  });
 };
 
 export default useFetchProducts;

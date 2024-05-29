@@ -11,14 +11,20 @@ const instance = axios.create({
 
 const endpoints = {
   fetchProducts: async () => {
-    return instance
-      .get("/products")
-      .then((response) => response.data["products"]);
+    try {
+      const response = await instance.get("/products");
+      return response.data; // Return the entire response data
+    } catch {
+      throw new Error("Failed to fetch products");
+    }
   },
   fetchPromotedProducts: async () => {
-    return instance
-      .get("/promoted")
-      .then((response) => response.data["promoted"]);
+    try {
+      const response = await instance.get("/promoted");
+      return response.data;
+    } catch {
+      throw new Error("Failed to fetch promoted products");
+    }
   },
 };
 

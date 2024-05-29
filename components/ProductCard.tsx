@@ -2,20 +2,35 @@ import * as React from "react";
 import { Text, View, StyleSheet, Image } from "react-native";
 
 import AddMultipleButton from "./AddMultipleButton";
-import { Product } from "./ProductsSectionList";
+import { Product } from "../types/Product";
 
 interface ProductCardProps {
   product: Product;
 }
 
 const ProductCard = ({ product }: ProductCardProps) => {
+  const [imageError, setImageError] = React.useState(false);
+
+  const handleImageError = () => {
+    console.log("error imagen");
+    setImageError(true);
+  };
+
   return (
     <>
       <View style={styles.container}>
-        <Image style={styles.image} source={product.imagePath} />
+        <Image
+          style={styles.image}
+          source={
+            imageError
+              ? require("../assets/productImages/RandomFood.png")
+              : { uri: product.listImageUrl }
+          }
+          onError={handleImageError}
+        />
         <View style={styles.textContainer}>
           <Text style={styles.title}>{product.name}</Text>
-          <Text style={styles.price}>${product.price}</Text>
+          <Text style={styles.price}>${product.price.toFixed(2)}</Text>
         </View>
         <View style={styles.buttonContainer}>
           <AddMultipleButton product={product} />

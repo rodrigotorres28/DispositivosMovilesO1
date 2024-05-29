@@ -6,32 +6,25 @@ import {
   View,
   SectionList,
   TextInput,
-  ImageSourcePropType,
+  ActivityIndicator,
 } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 import Carousel from "./Carousel";
 import ProductCard from "./ProductCard";
 import { carouselSlides } from "../assets/carouselSlides";
-import { products } from "../assets/products";
+import useFetchProducts from "../customHooks/useFetchProducts";
+import { ProductsCategory } from "../types/ProductsCategory";
 
 const inputContainerHeight = 32;
 
-export interface Product {
-  name: string;
-  price: number;
-  imagePath: ImageSourcePropType;
-  id: number;
-}
-
-export interface ProductsCategory {
-  id: number;
-  categoryName: string;
-  data: Product[];
-}
-
 const ProductsSectionList = () => {
   const [inputText, setInputText] = useState("");
+
+  const { data: products, error, isLoading } = useFetchProducts();
+  console.log(products);
+  console.log(error);
+  console.log(isLoading);
 
   const filterByNameAndCategory = useCallback(
     (inputText: string, products: ProductsCategory[]) => {
@@ -69,9 +62,27 @@ const ProductsSectionList = () => {
   );
 
   const filteredProducts = useMemo(
-    () => filterByNameAndCategory(inputText, products),
-    [inputText, filterByNameAndCategory],
+    () => (products ? filterByNameAndCategory(inputText, products) : []),
+    [inputText, filterByNameAndCategory, products],
   );
+
+  if (isLoading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  }
+
+  if (error) {
+    return (
+      <View style={styles.errorContainer}>
+        <Text style={styles.errorText}>
+          Error fetching products: {error.message}
+        </Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -117,6 +128,20 @@ export default ProductsSectionList;
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  errorContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  errorText: {
+    color: "red",
+    fontSize: 18,
+  },
   carouselContainer: {
     marginBottom: 12,
     marginTop: 2,
