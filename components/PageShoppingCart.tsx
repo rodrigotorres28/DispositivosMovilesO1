@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 import { View, StyleSheet, Text, ActivityIndicator } from "react-native";
 import { useSelector } from "react-redux";
+
 import CheckoutDetails from "./CheckoutDetails";
 import useFetchProducts from "../customHooks/useFetchProducts";
 import { RootState } from "../state/store"; // Update with the correct path to your Redux store
@@ -14,11 +15,13 @@ const PageShoppingCart = (props: PageShoppingCartProps) => {
   const totalPrice = useMemo(() => {
     if (!productsCategories || cartItems.length === 0) return 0;
 
-    const allProducts = productsCategories.flatMap(category => category.data);
+    const allProducts = productsCategories.flatMap((category) => category.data);
 
     let total = 0;
     for (const cartItem of cartItems) {
-      const product = allProducts.find(product => product.id === cartItem.productId);
+      const product = allProducts.find(
+        (product) => product.id === cartItem.productId,
+      );
       if (product) {
         total += product.price * cartItem.quantity;
       }
