@@ -31,8 +31,8 @@ const MainStackNavigation = (props: MainStackNavigationProps) => {
           options={{
             headerTitle: "",
             headerTintColor: "transparent",
-            headerTransparent: true,
             contentStyle: { backgroundColor: "white" },
+            headerShadowVisible: false,
           }}
         />
       </MainStack.Navigator>
