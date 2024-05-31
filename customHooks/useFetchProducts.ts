@@ -1,5 +1,3 @@
-// customHooks/useFetchProducts.ts
-
 import { useQuery } from "@tanstack/react-query";
 
 import productEndpoints from "../axios/endpoints";

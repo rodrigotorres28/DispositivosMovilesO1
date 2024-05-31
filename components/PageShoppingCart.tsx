@@ -2,9 +2,10 @@ import React, { useMemo } from "react";
 import { View, StyleSheet, Text, ActivityIndicator } from "react-native";
 import { useSelector } from "react-redux";
 
+import CartProductCard from "./CartProductCard";
 import CheckoutDetails from "./CheckoutDetails";
 import useFetchProducts from "../customHooks/useFetchProducts";
-import { RootState } from "../state/store"; // Update with the correct path to your Redux store
+import { RootState } from "../state/store";
 
 interface PageShoppingCartProps {}
 
@@ -43,6 +44,7 @@ const PageShoppingCart = (props: PageShoppingCartProps) => {
 
   return (
     <View style={styles.container}>
+      <CartProductCard />
       <CheckoutDetails totalPrice={totalPrice} />
     </View>
   );

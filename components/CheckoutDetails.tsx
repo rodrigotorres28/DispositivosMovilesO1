@@ -39,9 +39,11 @@ const styles = StyleSheet.create({
   totalText: {
     fontSize: 22,
     fontWeight: "500",
+    color: "#46496B",
   },
   totalValue: {
     fontSize: 32,
     fontWeight: "700",
+    color: "#46496B",
   },
 });
