@@ -1,5 +1,6 @@
 import * as React from "react";
-import { Text, View, Image, StyleSheet } from "react-native";
+import { useState } from "react";
+import { Text, View, Image, StyleSheet, TouchableOpacity } from "react-native";
 
 interface CartProductCardProps {
   imageSource: string;
@@ -14,25 +15,40 @@ const CartProductCard = ({
   price,
   amount,
 }: CartProductCardProps) => {
+  const [imageError, setImageError] = useState(false);
+
+  const handleImageError = () => {
+    setImageError(true);
+  };
+
   return (
     <View style={styles.container}>
-      <View style={styles.imageContainer}>
-        <Image
-          source={require("../assets/RandomFood.png")}
-          style={styles.imageStyle}
-        />
-      </View>
-      <View style={styles.namePriceContainer}>
-        <View>
-          <Text style={styles.nameTextStyle}>Watermelon</Text>
+      <TouchableOpacity>
+        <View style={styles.imageContainer}>
+          <Image
+            source={
+              imageError
+                ? require("../assets/RandomFood.png")
+                : { uri: imageSource }
+            }
+            style={styles.imageStyle}
+            onError={handleImageError}
+          />
         </View>
-        <View>
-          <Text style={styles.priceTextStyle}>$30</Text>
+        <View style={styles.namePriceContainer}>
+          <View>
+            <Text style={styles.nameTextStyle}>{name}</Text>
+          </View>
+          <View>
+            <Text style={styles.priceTextStyle}>${Math.round(price)}</Text>
+          </View>
         </View>
-      </View>
-      <View style={styles.amountContainer}>
-        <Text style={styles.ammountTextStyle}>3 units</Text>
-      </View>
+        <View style={styles.amountContainer}>
+          <Text style={styles.ammountTextStyle}>
+            {amount > 1 ? amount + " units" : amount + " unit"}
+          </Text>
+        </View>
+      </TouchableOpacity>
     </View>
   );
 };

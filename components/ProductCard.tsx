@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState } from "react";
 import { Text, View, StyleSheet, Image } from "react-native";
 
 import AddMultipleButton from "./AddMultipleButton";
@@ -9,10 +10,9 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ product }: ProductCardProps) => {
-  const [imageError, setImageError] = React.useState(false);
+  const [imageError, setImageError] = useState(false);
 
   const handleImageError = () => {
-    console.log("error imagen");
     setImageError(true);
   };
 
