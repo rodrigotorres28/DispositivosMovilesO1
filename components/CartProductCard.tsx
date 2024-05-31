@@ -1,9 +1,19 @@
 import * as React from "react";
 import { Text, View, Image, StyleSheet } from "react-native";
 
-interface CartProductCardProps {}
+interface CartProductCardProps {
+  imageSource: string;
+  name: string;
+  price: number;
+  amount: number;
+}
 
-const CartProductCard = (props: CartProductCardProps) => {
+const CartProductCard = ({
+  imageSource,
+  name,
+  price,
+  amount,
+}: CartProductCardProps) => {
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>

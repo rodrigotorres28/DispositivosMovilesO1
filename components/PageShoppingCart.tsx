@@ -4,31 +4,47 @@ import { useSelector } from "react-redux";
 
 import CartProductCard from "./CartProductCard";
 import CheckoutDetails from "./CheckoutDetails";
-import useFetchProducts from "../customHooks/useFetchProducts";
+import useFetchProductsWithoutFormat from "../customHooks/useFetchProductsWithoutFormat"; // [Change] Imported the new hook
 import { RootState } from "../state/store";
+import { Product } from "../types/Product";
 
 interface PageShoppingCartProps {}
 
+interface CartProduct extends Product {
+  amount: number;
+}
+
 const PageShoppingCart = (props: PageShoppingCartProps) => {
   const cartItems = useSelector((state: RootState) => state.cart.items);
-  const { data: productsCategories, error, isLoading } = useFetchProducts();
+  const {
+    data: fetchedProducts,
+    error,
+    isLoading,
+  } = useFetchProductsWithoutFormat(); // [Change] Renamed from `products` to `fetchedProducts`
 
-  const totalPrice = useMemo(() => {
-    if (!productsCategories || cartItems.length === 0) return 0;
+  const cartProductItems = useMemo(() => {
+    const cartProducts: CartProduct[] = [];
+    if (!fetchedProducts) return cartProducts;
 
-    const allProducts = productsCategories.flatMap((category) => category.data);
-
-    let total = 0;
     for (const cartItem of cartItems) {
-      const product = allProducts.find(
+      const product = fetchedProducts.find(
         (product) => product.id === cartItem.productId,
       );
       if (product) {
-        total += product.price * cartItem.quantity;
+        cartProducts.push({ ...product, amount: cartItem.quantity });
       }
     }
+
+    return cartProducts;
+  }, [fetchedProducts, cartItems]);
+
+  const totalPrice = useMemo(() => {
+    let total = 0;
+    for (const cartProduct of cartProductItems) {
+      total += cartProduct.price * cartProduct.amount;
+    }
     return total;
-  }, [productsCategories, cartItems]);
+  }, [cartProductItems]);
 
   if (isLoading) {
     return (
@@ -44,7 +60,16 @@ const PageShoppingCart = (props: PageShoppingCartProps) => {
 
   return (
     <View style={styles.container}>
-      <CartProductCard />
+      {cartProductItems.length > 0 ? (
+        <CartProductCard
+          imageSource={cartProductItems[0].checkoutImageUrl}
+          name={cartProductItems[0].name}
+          price={cartProductItems[0].price}
+          amount={cartProductItems[0].amount}
+        />
+      ) : (
+        <Text>No items in cart</Text>
+      )}
       <CheckoutDetails totalPrice={totalPrice} />
     </View>
   );
