@@ -5,9 +5,13 @@ import LargeHorizontalButton from "./LargeHorizontalButton";
 
 interface CheckoutDetailsProps {
   totalPrice: number;
+  buttonDisabled: boolean;
 }
 
-const CheckoutDetails = ({ totalPrice }: CheckoutDetailsProps) => {
+const CheckoutDetails = ({
+  totalPrice,
+  buttonDisabled,
+}: CheckoutDetailsProps) => {
   return (
     <View style={styles.container}>
       <View style={styles.horizontalContainer}>
@@ -19,6 +23,8 @@ const CheckoutDetails = ({ totalPrice }: CheckoutDetailsProps) => {
           text="Checkout"
           buttonColor="#4C2DE8"
           textColor="white"
+          disabled={buttonDisabled}
+          disabledColor="#cad0fa"
         />
       </View>
     </View>

@@ -67,7 +67,7 @@ const PageShoppingCart = (props: PageShoppingCartProps) => {
   return (
     <View style={styles.container}>
       <View style={styles.CartItemsContainer}>
-      <Text style={styles.headerText}>Shopping Cart</Text>
+        <Text style={styles.headerText}>Shopping Cart</Text>
         {cartProductItems.length > 0 ? (
           <FlatList
             data={cartProductItems}
@@ -87,11 +87,14 @@ const PageShoppingCart = (props: PageShoppingCartProps) => {
             columnWrapperStyle={styles.columnWrapper}
           />
         ) : (
-          <Text>Your Cart is empty!</Text>
+          <Text style={styles.emptyCart}>Your Cart is empty!</Text>
         )}
       </View>
       <View style={styles.CheckoutDetailsContainer}>
-        <CheckoutDetails totalPrice={totalPrice} />
+        <CheckoutDetails
+          totalPrice={totalPrice}
+          buttonDisabled={cartProductItems.length === 0}
+        />
       </View>
     </View>
   );
@@ -131,5 +134,11 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     marginBottom: 12,
     paddingHorizontal: 18,
-  }
+    color: "#46496B",
+  },
+  emptyCart: {
+    padding: 18,
+    fontSize: 16,
+    color: "grey",
+  },
 });

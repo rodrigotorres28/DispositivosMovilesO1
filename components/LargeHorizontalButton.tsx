@@ -11,17 +11,31 @@ interface LargeHorizontalButtonProps {
   text: string;
   buttonColor: string;
   textColor: ColorValue;
+  disabled?: boolean;
+  disabledColor?: ColorValue;
 }
 
 const LargeHorizontalButton = ({
   text,
   buttonColor,
   textColor,
+  disabled,
+  disabledColor,
 }: LargeHorizontalButtonProps) => {
   return (
     <View style={styles.container}>
-      <TouchableOpacity>
-        <View style={[styles.buttonShape, { backgroundColor: buttonColor }]}>
+      <TouchableOpacity disabled={disabled}>
+        <View
+          style={[
+            styles.buttonShape,
+            {
+              backgroundColor:
+                disabled && disabledColor !== undefined
+                  ? disabledColor
+                  : buttonColor,
+            },
+          ]}
+        >
           <Text style={[styles.textStyle, { color: textColor }]}>{text}</Text>
         </View>
       </TouchableOpacity>
