@@ -1,5 +1,11 @@
 import React, { useMemo } from "react";
-import { View, StyleSheet, Text, ActivityIndicator } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  ActivityIndicator,
+  FlatList,
+} from "react-native";
 import { useSelector } from "react-redux";
 
 import CartProductCard from "./CartProductCard";
@@ -60,17 +66,33 @@ const PageShoppingCart = (props: PageShoppingCartProps) => {
 
   return (
     <View style={styles.container}>
-      {cartProductItems.length > 0 ? (
-        <CartProductCard
-          imageSource={cartProductItems[0].checkoutImageUrl}
-          name={cartProductItems[0].name}
-          price={cartProductItems[0].price}
-          amount={cartProductItems[0].amount}
-        />
-      ) : (
-        <Text>No items in cart</Text>
-      )}
-      <CheckoutDetails totalPrice={totalPrice} />
+      <View style={styles.CartItemsContainer}>
+      <Text style={styles.headerText}>Shopping Cart</Text>
+        {cartProductItems.length > 0 ? (
+          <FlatList
+            data={cartProductItems}
+            renderItem={({ item }) => (
+              <View style={styles.gridItem}>
+                <CartProductCard
+                  imageSource={item.checkoutImageUrl}
+                  name={item.name}
+                  price={item.price}
+                  amount={item.amount}
+                />
+              </View>
+            )}
+            keyExtractor={(item) => item.id.toString()}
+            numColumns={2}
+            contentContainerStyle={styles.flatListContentContainer}
+            columnWrapperStyle={styles.columnWrapper}
+          />
+        ) : (
+          <Text>Your Cart is empty!</Text>
+        )}
+      </View>
+      <View style={styles.CheckoutDetailsContainer}>
+        <CheckoutDetails totalPrice={totalPrice} />
+      </View>
     </View>
   );
 };
@@ -78,10 +100,36 @@ const PageShoppingCart = (props: PageShoppingCartProps) => {
 export default PageShoppingCart;
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    flex: 1,
+  },
   loadingContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },
+  CheckoutDetailsContainer: {
+    paddingVertical: 44,
+    paddingHorizontal: 18,
+    flexDirection: "column-reverse",
+  },
+  CartItemsContainer: {
+    flex: 1,
+  },
+  flatListContentContainer: {
+    paddingHorizontal: 18,
+  },
+  columnWrapper: {
+    justifyContent: "space-between",
+  },
+  gridItem: {
+    marginVertical: 12,
+  },
+  headerText: {
+    fontSize: 22,
+    lineHeight: 22,
+    fontWeight: "700",
+    marginBottom: 12,
+    paddingHorizontal: 18,
+  }
 });
