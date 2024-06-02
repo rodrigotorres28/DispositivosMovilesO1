@@ -1,4 +1,5 @@
 import axios from "axios";
+
 import { CartItem } from "../state/cartSlice";
 
 const token = "0a41c523-fa00-418a-a585-7dd1fc5f18e4";
@@ -14,7 +15,7 @@ const endpoints = {
   fetchProducts: async () => {
     try {
       const response = await instance.get("/products");
-      return response.data; // Return the entire response data
+      return response.data;
     } catch {
       throw new Error("Failed to fetch products");
     }

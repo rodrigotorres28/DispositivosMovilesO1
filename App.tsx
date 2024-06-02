@@ -5,7 +5,6 @@ import { Provider } from "react-redux";
 import MainStackNavigation from "./components/MainStackNavigator";
 import { store } from "./state/store";
 
-// Create a query client
 const queryClient = new QueryClient();
 
 export default function App() {
