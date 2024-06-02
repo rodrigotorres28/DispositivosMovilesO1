@@ -20,7 +20,7 @@ interface AddMultipleButtonProps {
 const AddMultipleButton = ({ product }: AddMultipleButtonProps) => {
   const dispatch = useDispatch();
   const cartItem = useSelector((state: RootState) =>
-    state.cart.items.find((item) => item.productId === product.id),
+    state.cart.items.find((item) => item.product_id === product.id),
   );
 
   const handleAddToCart = () => {

@@ -1,3 +1,4 @@
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useMemo } from "react";
 import {
   View,
@@ -10,23 +11,27 @@ import { useSelector } from "react-redux";
 
 import CartProductCard from "./CartProductCard";
 import CheckoutDetails from "./CheckoutDetails";
-import useFetchProductsWithoutFormat from "../customHooks/useFetchProductsWithoutFormat"; // [Change] Imported the new hook
+import useFetchProductsWithoutFormat from "../customHooks/useFetchProductsWithoutFormat";
 import { RootState } from "../state/store";
+import { StackParamList } from "../types/MainStackTypes";
 import { Product } from "../types/Product";
 
-interface PageShoppingCartProps {}
+type PageShoppingCartProps = NativeStackScreenProps<
+  StackParamList,
+  "ShoppingCart"
+>;
 
 interface CartProduct extends Product {
   amount: number;
 }
 
-const PageShoppingCart = (props: PageShoppingCartProps) => {
+const PageShoppingCart = ({ navigation }: PageShoppingCartProps) => {
   const cartItems = useSelector((state: RootState) => state.cart.items);
   const {
     data: fetchedProducts,
     error,
     isLoading,
-  } = useFetchProductsWithoutFormat(); // [Change] Renamed from `products` to `fetchedProducts`
+  } = useFetchProductsWithoutFormat();
 
   const cartProductItems = useMemo(() => {
     const cartProducts: CartProduct[] = [];
@@ -34,7 +39,7 @@ const PageShoppingCart = (props: PageShoppingCartProps) => {
 
     for (const cartItem of cartItems) {
       const product = fetchedProducts.find(
-        (product) => product.id === cartItem.productId,
+        (product) => product.id === cartItem.product_id,
       );
       if (product) {
         cartProducts.push({ ...product, amount: cartItem.quantity });
@@ -94,6 +99,7 @@ const PageShoppingCart = (props: PageShoppingCartProps) => {
         <CheckoutDetails
           totalPrice={totalPrice}
           buttonDisabled={cartProductItems.length === 0}
+          navigation={navigation}
         />
       </View>
     </View>
