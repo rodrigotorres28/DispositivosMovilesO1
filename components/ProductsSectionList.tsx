@@ -127,7 +127,9 @@ const ProductsSectionList = () => {
         stickySectionHeadersEnabled={false}
         renderSectionHeader={({ section: { categoryName } }) => (
           <>
-            <Text style={styles.categoryTitle}>{categoryName}</Text>
+            <Text style={styles.categoryTitle}>
+              {categoryName.charAt(0).toUpperCase() + categoryName.slice(1)}
+            </Text>
             <View style={styles.dividerView} />
           </>
         )}

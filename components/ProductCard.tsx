@@ -29,7 +29,9 @@ const ProductCard = ({ product }: ProductCardProps) => {
           onError={handleImageError}
         />
         <View style={styles.textContainer}>
-          <Text style={styles.title}>{product.name}</Text>
+          <Text style={styles.title}>
+            {product.name.charAt(0).toUpperCase() + product.name.slice(1)}
+          </Text>
           <Text style={styles.price}>${product.price.toFixed(2)}</Text>
         </View>
         <View style={styles.buttonContainer}>
