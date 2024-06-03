@@ -2,34 +2,35 @@ import * as React from "react";
 import { useState } from "react";
 import { Text, View, Image, StyleSheet, TouchableOpacity } from "react-native";
 
+import { CartProduct } from "./PageShoppingCart";
+
 interface CartProductCardProps {
-  imageSource: string;
-  name: string;
-  price: number;
-  amount: number;
+  cartProduct: CartProduct;
+  onPress?: (product: CartProduct) => void;
 }
 
-const CartProductCard = ({
-  imageSource,
-  name,
-  price,
-  amount,
-}: CartProductCardProps) => {
+const CartProductCard = ({ cartProduct, onPress }: CartProductCardProps) => {
   const [imageError, setImageError] = useState(false);
 
   const handleImageError = () => {
     setImageError(true);
   };
 
+  const handlePress = () => {
+    if (onPress) {
+      onPress(cartProduct);
+    }
+  };
+
   return (
     <View style={styles.container}>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={handlePress}>
         <View style={styles.imageContainer}>
           <Image
             source={
               imageError
                 ? require("../assets/RandomFood.png")
-                : { uri: imageSource }
+                : { uri: cartProduct.checkoutImageUrl }
             }
             style={styles.imageStyle}
             onError={handleImageError}
@@ -37,15 +38,19 @@ const CartProductCard = ({
         </View>
         <View style={styles.namePriceContainer}>
           <View>
-            <Text style={styles.nameTextStyle}>{name}</Text>
+            <Text style={styles.nameTextStyle}>{cartProduct.name}</Text>
           </View>
           <View>
-            <Text style={styles.priceTextStyle}>${Math.round(price)}</Text>
+            <Text style={styles.priceTextStyle}>
+              ${Math.round(cartProduct.price)}
+            </Text>
           </View>
         </View>
         <View style={styles.amountContainer}>
-          <Text style={styles.ammountTextStyle}>
-            {amount > 1 ? amount + " units" : amount + " unit"}
+          <Text style={styles.amountTextStyle}>
+            {cartProduct.amount > 1
+              ? cartProduct.amount + " units"
+              : cartProduct.amount + " unit"}
           </Text>
         </View>
       </TouchableOpacity>
@@ -85,7 +90,7 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     color: "#9FA1B5",
   },
-  ammountTextStyle: {
+  amountTextStyle: {
     fontSize: 14,
     fontWeight: "500",
     color: "#9FA1B5",

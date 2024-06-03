@@ -1,17 +1,22 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import {
   View,
   StyleSheet,
   Text,
   ActivityIndicator,
   FlatList,
+  Modal,
+  Pressable,
+  Platform,
 } from "react-native";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import CartProductCard from "./CartProductCard";
 import CheckoutDetails from "./CheckoutDetails";
+import ProductCard from "./ProductCard";
 import useFetchProductsWithoutFormat from "../customHooks/useFetchProductsWithoutFormat";
+import { setToCart } from "../state/cartSlice";
 import { RootState } from "../state/store";
 import { StackParamList } from "../types/MainStackTypes";
 import { Product } from "../types/Product";
@@ -21,12 +26,18 @@ type PageShoppingCartProps = NativeStackScreenProps<
   "ShoppingCart"
 >;
 
-interface CartProduct extends Product {
+export interface CartProduct extends Product {
   amount: number;
 }
 
 const PageShoppingCart = ({ navigation }: PageShoppingCartProps) => {
+  const dispatch = useDispatch();
   const cartItems = useSelector((state: RootState) => state.cart.items);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<CartProduct | null>(
+    null,
+  );
+
   const {
     data: fetchedProducts,
     error,
@@ -57,6 +68,25 @@ const PageShoppingCart = ({ navigation }: PageShoppingCartProps) => {
     return total;
   }, [cartProductItems]);
 
+  const handleProductPress = (product: CartProduct) => {
+    if (Platform.OS === "android") {
+      setSelectedProduct(product);
+      setModalVisible(true);
+    }
+  };
+
+  const handleModalCancel = (selectedProduct: CartProduct | null) => {
+    if (selectedProduct !== null) {
+      dispatch(
+        setToCart({
+          productId: selectedProduct.id,
+          quantity: selectedProduct.amount,
+        }),
+      );
+    }
+    setModalVisible(false);
+  };
+
   if (isLoading) {
     return (
       <View style={styles.loadingContainer}>
@@ -79,10 +109,8 @@ const PageShoppingCart = ({ navigation }: PageShoppingCartProps) => {
             renderItem={({ item }) => (
               <View style={styles.gridItem}>
                 <CartProductCard
-                  imageSource={item.checkoutImageUrl}
-                  name={item.name}
-                  price={item.price}
-                  amount={item.amount}
+                  cartProduct={item}
+                  onPress={handleProductPress}
                 />
               </View>
             )}
@@ -102,6 +130,37 @@ const PageShoppingCart = ({ navigation }: PageShoppingCartProps) => {
           navigation={navigation}
         />
       </View>
+
+      <Modal
+        visible={modalVisible}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={styles.modalBackground}>
+          <View style={styles.modalContainer}>
+            <Text style={styles.modalText}>Edit Item Count</Text>
+            <View style={styles.divider} />
+            <View style={styles.modalProductCard}>
+              {selectedProduct && <ProductCard product={selectedProduct} />}
+            </View>
+            <View style={styles.modalButtonsContainer}>
+              <Pressable
+                style={styles.cancelButton}
+                onPress={() => handleModalCancel(selectedProduct)}
+              >
+                <Text style={styles.modalButtonText}>CANCEL</Text>
+              </Pressable>
+              <Pressable
+                style={styles.saveButton}
+                onPress={() => setModalVisible(false)}
+              >
+                <Text style={styles.modalButtonText}>SAVE</Text>
+              </Pressable>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -146,5 +205,50 @@ const styles = StyleSheet.create({
     padding: 18,
     fontSize: 16,
     color: "grey",
+  },
+  modalBackground: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.2)",
+  },
+  modalContainer: {
+    paddingVertical: 16,
+    backgroundColor: "white",
+    alignItems: "center",
+  },
+  modalText: {
+    fontSize: 18,
+    fontWeight: "700",
+    color: "#46496B",
+    marginBottom: 16,
+  },
+  saveButton: {
+    marginTop: 6,
+    paddingTop: 10,
+  },
+  cancelButton: {
+    marginTop: 6,
+    paddingTop: 10,
+    marginHorizontal: 24,
+  },
+  modalButtonText: {
+    color: "#5C3EDB",
+    fontSize: 16,
+    fontWeight: "700",
+  },
+  modalProductCard: {
+    width: 343,
+    height: 88,
+  },
+  divider: {
+    borderWidth: 1,
+    width: 307,
+    borderColor: "#F6F5F5",
+  },
+  modalButtonsContainer: {
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    width: 307,
   },
 });
