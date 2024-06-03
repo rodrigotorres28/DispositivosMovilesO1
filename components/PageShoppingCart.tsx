@@ -1,5 +1,6 @@
+import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useMemo, useRef, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -10,8 +11,10 @@ import {
   Pressable,
   Platform,
 } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useDispatch, useSelector } from "react-redux";
 
+import BottomSheetContent from "./BottomSheetContent";
 import CartProductCard from "./CartProductCard";
 import CheckoutDetails from "./CheckoutDetails";
 import ProductCard from "./ProductCard";
@@ -37,6 +40,8 @@ const PageShoppingCart = ({ navigation }: PageShoppingCartProps) => {
   const [selectedProduct, setSelectedProduct] = useState<CartProduct | null>(
     null,
   );
+  const [isBottomSheetVisible, setIsBottomSheetVisible] = useState(false);
+  const sheetRef = useRef<BottomSheet>(null);
 
   const {
     data: fetchedProducts,
@@ -69,9 +74,13 @@ const PageShoppingCart = ({ navigation }: PageShoppingCartProps) => {
   }, [cartProductItems]);
 
   const handleProductPress = (product: CartProduct) => {
+    setSelectedProduct(product);
     if (Platform.OS === "android") {
-      setSelectedProduct(product);
       setModalVisible(true);
+    }
+    if (Platform.OS === "ios") {
+      setIsBottomSheetVisible(true);
+      handleSnapPress(0);
     }
   };
 
@@ -87,6 +96,21 @@ const PageShoppingCart = ({ navigation }: PageShoppingCartProps) => {
     setModalVisible(false);
   };
 
+  const snapPoints = useMemo(() => ["40%"], []);
+
+  const handleSheetChanges = useCallback((index: number) => {
+    console.log(index);
+  }, []);
+
+  const handleSnapPress = useCallback((index: number) => {
+    sheetRef.current?.snapToIndex(index);
+  }, []);
+
+  const handleClosePress = useCallback(() => {
+    setIsBottomSheetVisible(false);
+    sheetRef.current?.close();
+  }, []);
+
   if (isLoading) {
     return (
       <View style={styles.loadingContainer}>
@@ -100,7 +124,7 @@ const PageShoppingCart = ({ navigation }: PageShoppingCartProps) => {
   }
 
   return (
-    <View style={styles.container}>
+    <GestureHandlerRootView style={styles.container}>
       <View style={styles.CartItemsContainer}>
         <Text style={styles.headerText}>Shopping Cart</Text>
         {cartProductItems.length > 0 ? (
@@ -161,7 +185,23 @@ const PageShoppingCart = ({ navigation }: PageShoppingCartProps) => {
           </View>
         </View>
       </Modal>
-    </View>
+
+      {isBottomSheetVisible && <View style={styles.overlay} />}
+
+      <BottomSheet
+        index={-1}
+        onChange={handleSheetChanges}
+        snapPoints={snapPoints}
+        ref={sheetRef}
+      >
+        <BottomSheetView>
+          <BottomSheetContent
+            selectedProduct={selectedProduct}
+            onConfirm={handleClosePress}
+          />
+        </BottomSheetView>
+      </BottomSheet>
+    </GestureHandlerRootView>
   );
 };
 
@@ -250,5 +290,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-end",
     width: 307,
+  },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(0, 0, 0, 0.2)",
   },
 });
