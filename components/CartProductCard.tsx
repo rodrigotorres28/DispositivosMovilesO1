@@ -30,7 +30,7 @@ const CartProductCard = ({ cartProduct, onPress }: CartProductCardProps) => {
             source={
               imageError
                 ? require("../assets/RandomFood.png")
-                : { uri: cartProduct.checkoutImageUrl }
+                : { uri: cartProduct.listImageUrl }
             }
             style={styles.imageStyle}
             onError={handleImageError}

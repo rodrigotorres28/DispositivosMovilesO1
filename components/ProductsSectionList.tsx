@@ -9,16 +9,21 @@ import {
   ActivityIndicator,
 } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { useDispatch, useSelector } from "react-redux";
 
 import Carousel from "./Carousel";
 import ProductCard from "./ProductCard";
 import useFetchProducts from "../customHooks/useFetchProducts";
 import useFetchPromoted from "../customHooks/useFetchPromoted";
+import { addToCart, removeFromCart } from "../state/cartSlice";
+import { RootState } from "../state/store";
+import { Product } from "../types/Product";
 import { ProductsCategory } from "../types/ProductsCategory";
 
 const inputContainerHeight = 32;
 
 const ProductsSectionList = () => {
+  const dispatch = useDispatch();
   const [inputText, setInputText] = useState("");
 
   const { data: products, error, isLoading } = useFetchProducts();
@@ -67,6 +72,16 @@ const ProductsSectionList = () => {
     () => (products ? filterByNameAndCategory(inputText, products) : []),
     [inputText, filterByNameAndCategory, products],
   );
+
+  const handleAddToCart = (product: Product) => {
+    dispatch(addToCart(product.id));
+  };
+
+  const handleRemoveFromCart = (product: Product) => {
+    dispatch(removeFromCart(product.id));
+  };
+
+  const cartItems = useSelector((state: RootState) => state.cart.items);
 
   if (isLoading || promotedLoading) {
     return (
@@ -123,7 +138,21 @@ const ProductsSectionList = () => {
         }
         sections={filteredProducts}
         keyExtractor={(item, index) => item.id.toString() + index}
-        renderItem={({ item }) => <ProductCard product={item} />}
+        renderItem={({ item }) => {
+          const cartItem = cartItems.find(
+            (cartItem) => cartItem.product_id === item.id,
+          );
+          const quantity = cartItem ? cartItem.quantity : 0;
+
+          return (
+            <ProductCard
+              product={item}
+              onAdd={() => handleAddToCart(item)}
+              onRemove={() => handleRemoveFromCart(item)}
+              buttonNumber={quantity}
+            />
+          );
+        }}
         stickySectionHeadersEnabled={false}
         renderSectionHeader={({ section: { categoryName } }) => (
           <>

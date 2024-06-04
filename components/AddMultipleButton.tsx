@@ -1,56 +1,33 @@
 import * as React from "react";
 import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import { useDispatch, useSelector } from "react-redux";
-
-import { addToCart, removeFromCart } from "../state/cartSlice";
-import { RootState } from "../state/store";
 
 interface AddMultipleButtonProps {
-  product: {
-    id: number;
-    name: string;
-    price: number;
-    category: string;
-    checkoutImageUrl: string;
-    listImageUrl: string;
-  };
+  onAdd: () => void;
+  onRemove: () => void;
+  displayedAmount: number;
 }
 
-const AddMultipleButton = ({ product }: AddMultipleButtonProps) => {
-  const dispatch = useDispatch();
-  const cartItem = useSelector((state: RootState) =>
-    state.cart.items.find((item) => item.product_id === product.id),
-  );
+const AddMultipleButton = ({
+  onAdd,
+  onRemove,
+  displayedAmount,
+}: AddMultipleButtonProps) => {
 
-  const handleAddToCart = () => {
-    dispatch(addToCart(product.id));
-  };
-
-  const handleRemoveFromCart = () => {
-    dispatch(removeFromCart(product.id));
-  };
-
-  if (!cartItem || cartItem.quantity === 0) {
+  if (displayedAmount === 0) {
     return (
-      <TouchableOpacity onPress={handleAddToCart} style={styles.buttonAdd}>
+      <TouchableOpacity onPress={onAdd} style={styles.buttonAdd}>
         <Text style={styles.textAdd}>Add</Text>
       </TouchableOpacity>
     );
   }
   return (
     <View style={styles.multipleAddContainer}>
-      <TouchableOpacity
-        onPress={handleRemoveFromCart}
-        style={styles.buttonsPlusMinus}
-      >
+      <TouchableOpacity onPress={onRemove} style={styles.buttonsPlusMinus}>
         <MaterialCommunityIcons name="minus" color="black" size={16} />
       </TouchableOpacity>
-      <Text style={styles.quantity}>{cartItem.quantity}</Text>
-      <TouchableOpacity
-        onPress={handleAddToCart}
-        style={styles.buttonsPlusMinus}
-      >
+      <Text style={styles.quantity}>{displayedAmount}</Text>
+      <TouchableOpacity onPress={onAdd} style={styles.buttonsPlusMinus}>
         <MaterialCommunityIcons name="plus" color="black" size={16} />
       </TouchableOpacity>
     </View>

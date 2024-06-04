@@ -8,18 +8,16 @@ import {
   ActivityIndicator,
   FlatList,
   Modal,
-  Pressable,
   Platform,
 } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 import BottomSheetContent from "./BottomSheetContent";
 import CartProductCard from "./CartProductCard";
 import CheckoutDetails from "./CheckoutDetails";
-import ProductCard from "./ProductCard";
+import ModalContent from "./ModalContent";
 import useFetchProductsWithoutFormat from "../customHooks/useFetchProductsWithoutFormat";
-import { setToCart } from "../state/cartSlice";
 import { RootState } from "../state/store";
 import { StackParamList } from "../types/MainStackTypes";
 import { Product } from "../types/Product";
@@ -34,7 +32,6 @@ export interface CartProduct extends Product {
 }
 
 const PageShoppingCart = ({ navigation }: PageShoppingCartProps) => {
-  const dispatch = useDispatch();
   const cartItems = useSelector((state: RootState) => state.cart.items);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<CartProduct | null>(
@@ -82,18 +79,6 @@ const PageShoppingCart = ({ navigation }: PageShoppingCartProps) => {
       setIsBottomSheetVisible(true);
       handleSnapPress(0);
     }
-  };
-
-  const handleModalCancel = (selectedProduct: CartProduct | null) => {
-    if (selectedProduct !== null) {
-      dispatch(
-        setToCart({
-          productId: selectedProduct.id,
-          quantity: selectedProduct.amount,
-        }),
-      );
-    }
-    setModalVisible(false);
   };
 
   const snapPoints = useMemo(() => ["40%"], []);
@@ -161,29 +146,10 @@ const PageShoppingCart = ({ navigation }: PageShoppingCartProps) => {
         animationType="fade"
         onRequestClose={() => setModalVisible(false)}
       >
-        <View style={styles.modalBackground}>
-          <View style={styles.modalContainer}>
-            <Text style={styles.modalText}>Edit Item Count</Text>
-            <View style={styles.divider} />
-            <View style={styles.modalProductCard}>
-              {selectedProduct && <ProductCard product={selectedProduct} />}
-            </View>
-            <View style={styles.modalButtonsContainer}>
-              <Pressable
-                style={styles.cancelButton}
-                onPress={() => handleModalCancel(selectedProduct)}
-              >
-                <Text style={styles.modalButtonText}>CANCEL</Text>
-              </Pressable>
-              <Pressable
-                style={styles.saveButton}
-                onPress={() => setModalVisible(false)}
-              >
-                <Text style={styles.modalButtonText}>SAVE</Text>
-              </Pressable>
-            </View>
-          </View>
-        </View>
+        <ModalContent
+          selectedProduct={selectedProduct}
+          setModalVisible={(x: boolean) => setModalVisible(x)}
+        />
       </Modal>
 
       {isBottomSheetVisible && <View style={styles.overlay} />}
@@ -197,7 +163,7 @@ const PageShoppingCart = ({ navigation }: PageShoppingCartProps) => {
         <BottomSheetView>
           <BottomSheetContent
             selectedProduct={selectedProduct}
-            onConfirm={handleClosePress}
+            closeBottomSheet={handleClosePress}
           />
         </BottomSheetView>
       </BottomSheet>
@@ -245,51 +211,6 @@ const styles = StyleSheet.create({
     padding: 18,
     fontSize: 16,
     color: "grey",
-  },
-  modalBackground: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.2)",
-  },
-  modalContainer: {
-    paddingVertical: 16,
-    backgroundColor: "white",
-    alignItems: "center",
-  },
-  modalText: {
-    fontSize: 18,
-    fontWeight: "700",
-    color: "#46496B",
-    marginBottom: 16,
-  },
-  saveButton: {
-    marginTop: 6,
-    paddingTop: 10,
-  },
-  cancelButton: {
-    marginTop: 6,
-    paddingTop: 10,
-    marginHorizontal: 24,
-  },
-  modalButtonText: {
-    color: "#5C3EDB",
-    fontSize: 16,
-    fontWeight: "700",
-  },
-  modalProductCard: {
-    width: 343,
-    height: 88,
-  },
-  divider: {
-    borderWidth: 1,
-    width: 307,
-    borderColor: "#F6F5F5",
-  },
-  modalButtonsContainer: {
-    flexDirection: "row",
-    justifyContent: "flex-end",
-    width: 307,
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,

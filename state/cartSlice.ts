@@ -52,7 +52,11 @@ const cartSlice = createSlice({
         (item) => item.product_id === productId,
       );
       if (existingItemIndex !== -1) {
-        state.items[existingItemIndex].quantity = quantity;
+        if (quantity > 0) {
+          state.items[existingItemIndex].quantity = quantity;
+        } else {
+          state.items.splice(existingItemIndex, 1);
+        }
       } else {
         state.items.push({ product_id: productId, quantity });
       }

@@ -1,15 +1,26 @@
 import * as React from "react";
 import { useState } from "react";
 import { Text, View, StyleSheet, Image } from "react-native";
+import { useDispatch } from "react-redux";
 
 import AddMultipleButton from "./AddMultipleButton";
+import { addToCart, removeFromCart } from "../state/cartSlice";
 import { Product } from "../types/Product";
 
 interface ProductCardProps {
   product: Product;
+  onAdd: () => void;
+  onRemove: () => void;
+  buttonNumber: number;
 }
 
-const ProductCard = ({ product }: ProductCardProps) => {
+const ProductCard = ({
+  product,
+  onAdd,
+  onRemove,
+  buttonNumber,
+}: ProductCardProps) => {
+  const dispatch = useDispatch();
   const [imageError, setImageError] = useState(false);
 
   const handleImageError = () => {
@@ -24,7 +35,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
           source={
             imageError
               ? require("../assets/RandomFood.png")
-              : { uri: product.listImageUrl }
+              : { uri: product.checkoutImageUrl }
           }
           onError={handleImageError}
         />
@@ -35,7 +46,11 @@ const ProductCard = ({ product }: ProductCardProps) => {
           <Text style={styles.price}>${product.price.toFixed(2)}</Text>
         </View>
         <View style={styles.buttonContainer}>
-          <AddMultipleButton product={product} />
+          <AddMultipleButton
+            onAdd={onAdd}
+            onRemove={onRemove}
+            displayedAmount={buttonNumber}
+          />
         </View>
       </View>
       <View style={styles.dividerView} />
